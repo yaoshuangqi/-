@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- 数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost/petmanager"
+                        userId="root" password="root">
+        </jdbcConnection>
+
+        <!-- Model生成规则 -->
+        <javaModelGenerator targetPackage="com.wbg.pet.entity" targetProject="src/main/java">
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--Mapper文件生成-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources"/>
+        <!-- dao 规则 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.wbg.pet.dao"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <table tableName="%" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+    </context>
+</generatorConfiguration>

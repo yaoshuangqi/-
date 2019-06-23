@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>宠物管理系统</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="/css/login.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="login">
+    <form >
+        <div class="top">
+            <label>宠物管理系统</label>
+        </div>
+        <div class="login_form">
+            <div class="user">
+                <input class="text_value" placeholder="请输入用户名" name="username" id="username" type="text">
+                <input class="text_value" placeholder="请输入密码" name="password" id="password" type="password">
+            </div>
+            <button class="button" id="submit" type="button" title="登录" style="cursor: pointer;">登录</button>
+        </div>
+
+        <div id="tip">
+                <a href="#" target="_self" onclick="btnreg();" style="color:#FFF; padding-left: 120px;">新用户注册</a>
+                <label style="float: right;"><input type="checkbox" onclick="rememberid()" id="rememberMe" style="vertical-align: middle;">&nbsp;记住密码</label>
+        </div>
+        <div class="foot">
+            My name is CHEN PEI PEI. We are destined for @2019.
+        </div>
+    </form>
+</div>
+<!--新用户注册-->
+<div id="shade">
+    <div class="shade-background"></div>
+    <div id="register">
+        <div style="background-color: aquamarine;padding-top:5px;text-align: center; height:60px;">
+            <h3 class="title">新用户注册</h3>
+        </div>
+        <div id="content" style="padding:10px;">
+            <p align="center" style="height:40px;">用户账号:
+                <input type="text" style="height:22px;" id="rguser" placeholder="账号首字符为字母">
+            </p>
+            <p align="center" style="height:40px;">邮箱地址:
+                <input type="text" style="height:22px;" id="rgenmail" placeholder="邮箱用户密码找回">
+            </p>
+            <div id="error_box"><br></div>
+        </div>
+
+        <div id="foot">
+            <p align="center">
+                <input type="button" style="cursor: pointer;" onclick="register()" value="立即注册" />&nbsp;&nbsp;&nbsp;
+                <input type="button" style="cursor: pointer;" onclick="cancel()"  value="取消" />
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        //给登陆按钮绑定enter事件
+        $(document).on("keydown",function (event) {
+            var e = event || window.event ||arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){
+                $("#submit").click();
+            }
+        });
+    });
+    $("#submit").click(function () {
+        $.ajax({
+            type:"post",
+            url:"user/login",
+            dataType: 'json'
+            ,data:{username:$("input[name=username]").val(),password:$("input[name=password]").val()}
+            , success: function (data) {
+                if(data.code==200){
+                    window.location.href="qj/loginmain"
+                }else if(data.code==401) {
+                    alert(data.msg);
+                }
+                else {
+                    alert(data.msg);
+                    $("input[name=password]").val("");
+                }
+            }
+        });
+    })
+    function btnreg() {
+        shade.style.display = "block";
+    }
+    function cancel() {
+        shade.style.display = "none";
+    }
+    function register() {
+        var rguser = document.getElementById("rguser");
+        var rgenmail = document.getElementById("rgenmail");
+        var oError = document.getElementById("error_box");
+        var isError = true;
+        if (rguser.value.length > 20 || rguser.value.length < 6) {
+            oError.innerHTML = "用户名请输入6-20位字符";
+            isError = false;
+            return;
+        }else if((rguser.value.charCodeAt(0)>=48) && (rguser.value.charCodeAt(0)<=57)){
+            oError.innerHTML = "首字符必须为字母";
+            return;
+        }else{
+            for(var i=0;i<rguser.value.charCodeAt(i);i++){
+                if((rguser.value.charCodeAt(i)<48)||(rguser.value.charCodeAt(i)>57) && (rguser.value.charCodeAt(i)<97)||(rguser.value.charCodeAt(i)>122)){
+                    oError.innerHTML = "必须为字母跟数字组成";
+                    return;
+                }
+            }
+        }
+        $.ajax({
+            type:"post",
+            url:"user/register",
+            dataType: 'json'
+            ,data:{username:rguser.value,email:rgenmail.value}
+            , success: function (data) {
+                if(data.code==200){
+                    alert("恭喜您，注册成功！\n您的初始密码为123456，请登陆后及时修改。");
+                    shade.style.display = "none";
+                }else {
+                    alert("注册失败，请联系管理员！");
+                    $("#rguser").val("");
+                    $("#rgenmail").val("");
+                }
+            }
+        });
+    }
+
+    function rememberid() {
+        if(document.getElementById("rememberMe").checked)
+        {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            window.sessionStorage.username =  username;
+            window.sessionStorage.password = password;
+            localStorage.rmbPassword = true;
+        }
+        else
+        {
+            localStorage.rmbPassword = false;
+        }
+    }
+</script>
+</body>
+</html>
