@@ -7,7 +7,7 @@ public class User {
     private String username;
     /*登陆密码*/
     private String password;
-
+    //用户年龄
     private Integer age;
 
     private String email;
