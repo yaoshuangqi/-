@@ -5,7 +5,7 @@ public class User {
     private Integer id;
     /*用户登陆*/
     private String username;
-
+    /*登陆密码*/
     private String password;
 
     private Integer age;
