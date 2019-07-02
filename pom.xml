@@ -7,7 +7,7 @@
     <groupId>com.ysq.petsystem</groupId>
     <artifactId>petsystem</artifactId>
     <version>1.0.0</version>
-    <!--打包-->
+    <!--web部署包-->
     <packaging>war</packaging>
     <!--设置编码-->
     <properties>
