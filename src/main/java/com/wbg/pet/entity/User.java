@@ -1,8 +1,9 @@
 package com.wbg.pet.entity;
 
 public class User {
+    /*用户ID*/
     private Integer id;
-
+    /*用户登陆*/
     private String username;
 
     private String password;
